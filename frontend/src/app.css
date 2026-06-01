@@ -2,24 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+:root {
+  --color-bg: #F0F4FA;
+  --color-navy: #1A2B48;
+  --color-emerald: #10B981;
+  --color-amber: #F59E0B;
+  --color-card: #FFFFFF;
+  --color-danger: #EF4444;
+  --radius-card: 16px;
+}
+
+html, body {
+  background-color: var(--color-bg);
+  color: var(--color-navy);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
 }
 
 @layer components {
   .card {
-    @apply bg-white rounded-xl shadow-sm border border-gray-100 p-4;
+    @apply bg-card rounded-2xl p-4;
+    box-shadow: var(--tw-shadow, 0 1px 4px 0 rgba(26,43,72,0.08), 0 0 0 1px rgba(26,43,72,0.04));
   }
+
   .btn-primary {
-    @apply bg-primary-600 text-white px-4 py-2 rounded-lg font-medium
-           hover:bg-primary-700 transition-colors disabled:opacity-50;
+    @apply bg-navy-800 text-white px-4 py-3 rounded-xl font-semibold
+           active:scale-95 transition-transform disabled:opacity-50 select-none;
   }
+
   .btn-secondary {
-    @apply bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium
-           hover:bg-gray-200 transition-colors;
+    @apply bg-surface text-navy-800 px-4 py-3 rounded-xl font-medium
+           active:scale-95 transition-transform select-none border border-navy-800/10;
   }
+
   .input-field {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-lg
-           focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none;
+    @apply w-full px-4 py-3 rounded-xl border border-navy-800/15
+           focus:ring-2 focus:ring-navy-800/30 focus:border-navy-800/40 outline-none
+           bg-white text-navy-800 placeholder-navy-800/40;
+  }
+
+  .nav-btn {
+    @apply flex-1 flex flex-col items-center justify-center gap-1 py-2
+           text-xs font-medium transition-colors select-none;
+    min-height: 56px;
+  }
+
+  .nav-btn.active {
+    @apply text-navy-800;
+  }
+
+  .nav-btn:not(.active) {
+    @apply text-navy-800/35;
+  }
+
+  .badge-risk-low {
+    @apply bg-emerald-500/10 text-emerald-600 border border-emerald-500/20;
+  }
+
+  .badge-risk-medium {
+    @apply bg-amber-500/10 text-amber-600 border border-amber-500/20;
+  }
+
+  .badge-risk-high {
+    @apply bg-danger/10 text-danger border border-danger/20;
   }
 }
