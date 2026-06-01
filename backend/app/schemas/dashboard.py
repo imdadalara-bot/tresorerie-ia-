@@ -1,6 +1,6 @@
 from datetime import date
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class DailyFlow(BaseModel):
@@ -33,6 +33,11 @@ class DashboardResponse(BaseModel):
     alerts: list[AlertInfo]
     daily_flows_7d: list[DailyFlow]
     currency: str
+    # Chiffre d'Affaires sur la période des 30 derniers jours
+    chiffre_affaires: float = Field(
+        default=0.0,
+        description="Chiffre d'Affaires (somme des revenus) sur la période des 30 derniers jours"
+    )
 
 
 class UserProfileUpdate(BaseModel):

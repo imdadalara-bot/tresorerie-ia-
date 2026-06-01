@@ -1,7 +1,7 @@
 from datetime import date, timedelta
 from collections import defaultdict
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
 from app.database import get_db
@@ -10,6 +10,7 @@ from app.models.transaction import Transaction
 from app.schemas.dashboard import DashboardResponse, DailyFlow, UserProfileUpdate
 from app.services.auth import get_current_user
 from app.services.forecast import compute_forecast
+from app.services.ca import calculate_ca
 
 router = APIRouter(prefix="/dashboard", tags=["dashboard"])
 
@@ -69,6 +70,8 @@ def get_dashboard(
         alerts=alerts,
         daily_flows_7d=daily_flows,
         currency=current_user.currency,
+        # Chiffre d'Affaires = total des revenus sur la période (30 jours)
+        chiffre_affaires=round(total_income, 0),
     )
 
 
