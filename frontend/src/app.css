@@ -2,24 +2,89 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+:root {
+  --color-bg: #F0F4FA;
+  --color-navy: #1A2B48;
+  --color-emerald: #10B981;
+  --color-amber: #F59E0B;
+  --color-card: #FFFFFF;
+  --color-danger: #EF4444;
+  --radius-card: 16px;
+}
+
+html, body {
+  background-color: var(--color-bg);
+  color: var(--color-navy);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
 }
 
 @layer components {
   .card {
-    @apply bg-white rounded-xl shadow-sm border border-gray-100 p-4;
+    @apply rounded-2xl p-4;
+    background-color: var(--color-card);
+    box-shadow: var(--tw-shadow, 0 1px 4px 0 rgba(26,43,72,0.08), 0 0 0 1px rgba(26,43,72,0.04));
   }
+
   .btn-primary {
-    @apply bg-primary-600 text-white px-4 py-2 rounded-lg font-medium
-           hover:bg-primary-700 transition-colors disabled:opacity-50;
+    @apply px-4 py-3 rounded-xl font-semibold active:scale-95 transition-transform disabled:opacity-50 select-none;
+    background-color: var(--color-navy);
+    color: white;
   }
+
   .btn-secondary {
-    @apply bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium
-           hover:bg-gray-200 transition-colors;
+    @apply px-4 py-3 rounded-xl font-medium active:scale-95 transition-transform select-none border;
+    background-color: var(--color-bg);
+    color: var(--color-navy);
+    border-color: rgba(26, 43, 72, 0.1);
   }
+
   .input-field {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-lg
-           focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none;
+    @apply w-full px-4 py-3 rounded-xl border outline-none;
+    background-color: white;
+    color: var(--color-navy);
+    border-color: rgba(26, 43, 72, 0.15);
+  }
+
+  .input-field:focus {
+    @apply ring-2;
+    ring-color: rgba(26, 43, 72, 0.3);
+    border-color: rgba(26, 43, 72, 0.4);
+  }
+
+  .input-field::placeholder {
+    color: rgba(26, 43, 72, 0.4);
+  }
+
+  .nav-btn {
+    @apply flex-1 flex flex-col items-center justify-center gap-1 py-2 text-xs font-medium transition-colors select-none;
+    min-height: 56px;
+    color: rgba(26, 43, 72, 0.35);
+  }
+
+  .nav-btn.active {
+    color: var(--color-navy);
+  }
+
+  .badge-risk-low {
+    @apply border;
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #059669;
+    border-color: rgba(16, 185, 129, 0.2);
+  }
+
+  .badge-risk-medium {
+    @apply border;
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #d97706;
+    border-color: rgba(245, 158, 11, 0.2);
+  }
+
+  .badge-risk-high {
+    @apply border;
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--color-danger);
+    border-color: rgba(239, 68, 68, 0.2);
   }
 }

@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import engine, Base
-from app.routers import auth, transactions, dashboard, orange_money, export
+from app.routers import auth, transactions, dashboard, orange_money, export, ca
 
 Base.metadata.create_all(bind=engine)
 
@@ -25,6 +25,7 @@ app.include_router(transactions.router, prefix="/api")
 app.include_router(dashboard.router, prefix="/api")
 app.include_router(orange_money.router, prefix="/api")
 app.include_router(export.router, prefix="/api")
+app.include_router(ca.router, prefix="/api")
 
 
 @app.get("/api/health")

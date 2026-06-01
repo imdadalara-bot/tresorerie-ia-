@@ -1,43 +1,71 @@
 <script>
   export let data = [];
-  export let width = 280;
-  export let height = 40;
+  export let width = 320;
+  export let height = 56;
+  export let color = '#10B981';
+  export let showArea = true;
 
-  $: points = (() => {
-    if (data.length < 2) return '';
-    const max = Math.max(...data.map(Math.abs), 1);
+  const uid = Math.random().toString(36).slice(2, 8);
+
+  $: pts = (() => {
+    if (data.length < 2) return [];
+    const min = Math.min(...data);
+    const max = Math.max(...data);
+    const range = max - min || 1;
     const step = width / (data.length - 1);
-    return data
-      .map((v, i) => {
-        const x = i * step;
-        const y = height / 2 - (v / max) * (height / 2 - 4);
-        return `${x},${y}`;
-      })
-      .join(' ');
+    const pad = 4;
+    return data.map((v, i) => ({
+      x: i * step,
+      y: pad + ((max - v) / range) * (height - pad * 2),
+    }));
   })();
 
-  $: fillPoints = (() => {
-    if (data.length < 2) return '';
-    const max = Math.max(...data.map(Math.abs), 1);
-    const step = width / (data.length - 1);
-    const pts = data.map((v, i) => {
-      const x = i * step;
-      const y = height / 2 - (v / max) * (height / 2 - 4);
-      return `${x},${y}`;
-    });
-    return `0,${height / 2} ${pts.join(' ')} ${width},${height / 2}`;
+  $: linePath = (() => {
+    if (pts.length < 2) return '';
+    return pts.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+  })();
+
+  $: areaPath = (() => {
+    if (pts.length < 2) return '';
+    const line = pts.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+    return `${line} L${(pts[pts.length - 1].x).toFixed(1)},${height} L0,${height} Z`;
   })();
 </script>
 
-<svg viewBox="0 0 {width} {height}" class="w-full" style="height: {height}px;">
-  <!-- Zero line -->
-  <line x1="0" y1={height / 2} x2={width} y2={height / 2} stroke="#e5e7eb" stroke-width="1" />
-  <!-- Fill -->
-  {#if fillPoints}
-    <polygon points={fillPoints} fill="#3b82f6" opacity="0.1" />
+<svg
+  viewBox="0 0 {width} {height}"
+  class="w-full"
+  style="height: {height}px; overflow: visible;"
+  aria-hidden="true"
+>
+  <defs>
+    <linearGradient id="area-grad-{uid}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color={color} stop-opacity="0.18"/>
+      <stop offset="100%" stop-color={color} stop-opacity="0.01"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Area fill -->
+  {#if showArea && areaPath}
+    <path d={areaPath} fill="url(#area-grad-{uid})" />
   {/if}
+
   <!-- Line -->
-  {#if points}
-    <polyline points={points} fill="none" stroke="#3b82f6" stroke-width="2" />
+  {#if linePath}
+    <path
+      d={linePath}
+      fill="none"
+      stroke={color}
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  {/if}
+
+  <!-- End dot -->
+  {#if pts.length > 0}
+    {@const last = pts[pts.length - 1]}
+    <circle cx={last.x} cy={last.y} r="3.5" fill={color} />
+    <circle cx={last.x} cy={last.y} r="6" fill={color} fill-opacity="0.2" />
   {/if}
 </svg>
