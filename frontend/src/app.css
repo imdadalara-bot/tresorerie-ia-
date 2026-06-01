@@ -22,49 +22,69 @@ html, body {
 
 @layer components {
   .card {
-    @apply bg-card rounded-2xl p-4;
+    @apply rounded-2xl p-4;
+    background-color: var(--color-card);
     box-shadow: var(--tw-shadow, 0 1px 4px 0 rgba(26,43,72,0.08), 0 0 0 1px rgba(26,43,72,0.04));
   }
 
   .btn-primary {
-    @apply bg-navy-800 text-white px-4 py-3 rounded-xl font-semibold
-           active:scale-95 transition-transform disabled:opacity-50 select-none;
+    @apply px-4 py-3 rounded-xl font-semibold active:scale-95 transition-transform disabled:opacity-50 select-none;
+    background-color: var(--color-navy);
+    color: white;
   }
 
   .btn-secondary {
-    @apply bg-surface text-navy-800 px-4 py-3 rounded-xl font-medium
-           active:scale-95 transition-transform select-none border border-navy-800/10;
+    @apply px-4 py-3 rounded-xl font-medium active:scale-95 transition-transform select-none border;
+    background-color: var(--color-bg);
+    color: var(--color-navy);
+    border-color: rgba(26, 43, 72, 0.1);
   }
 
   .input-field {
-    @apply w-full px-4 py-3 rounded-xl border border-navy-800/15
-           focus:ring-2 focus:ring-navy-800/30 focus:border-navy-800/40 outline-none
-           bg-white text-navy-800 placeholder-navy-800/40;
+    @apply w-full px-4 py-3 rounded-xl border outline-none;
+    background-color: white;
+    color: var(--color-navy);
+    border-color: rgba(26, 43, 72, 0.15);
+  }
+
+  .input-field:focus {
+    @apply ring-2;
+    ring-color: rgba(26, 43, 72, 0.3);
+    border-color: rgba(26, 43, 72, 0.4);
+  }
+
+  .input-field::placeholder {
+    color: rgba(26, 43, 72, 0.4);
   }
 
   .nav-btn {
-    @apply flex-1 flex flex-col items-center justify-center gap-1 py-2
-           text-xs font-medium transition-colors select-none;
+    @apply flex-1 flex flex-col items-center justify-center gap-1 py-2 text-xs font-medium transition-colors select-none;
     min-height: 56px;
+    color: rgba(26, 43, 72, 0.35);
   }
 
   .nav-btn.active {
-    @apply text-navy-800;
-  }
-
-  .nav-btn:not(.active) {
-    @apply text-navy-800/35;
+    color: var(--color-navy);
   }
 
   .badge-risk-low {
-    @apply bg-emerald-500/10 text-emerald-600 border border-emerald-500/20;
+    @apply border;
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #059669;
+    border-color: rgba(16, 185, 129, 0.2);
   }
 
   .badge-risk-medium {
-    @apply bg-amber-500/10 text-amber-600 border border-amber-500/20;
+    @apply border;
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #d97706;
+    border-color: rgba(245, 158, 11, 0.2);
   }
 
   .badge-risk-high {
-    @apply bg-danger/10 text-danger border border-danger/20;
+    @apply border;
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--color-danger);
+    border-color: rgba(239, 68, 68, 0.2);
   }
 }
